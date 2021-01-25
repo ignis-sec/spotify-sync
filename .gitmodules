@@ -1,0 +1,6 @@
+[submodule "modules/razer_chroma"]
+	path = modules/razer_chroma
+	url = https://github.com/FlameOfIgnis/razer-pychroma
+[submodule "modules/rgb_keyboard"]
+	path = modules/rgb_keyboard
+	url = https://github.com/FlameOfIgnis/rgb_keyboard

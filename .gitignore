@@ -1,0 +1,9 @@
+
+#spotify oauth cache
+.cache
+
+#pycache
+__pycache__/
+
+#downloaded by palette
+cover.png
