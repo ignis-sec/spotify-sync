@@ -34,7 +34,7 @@ def get_colors(image_file, numcolors=10, resize=150):
 
 async def get_album_colors(song):
     #get album thumbnail
-    filename = song.split('/')[-1]
+    filename = song['item']['href'].split('/')[-1]
     directory = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '.albums', filename))
     #check from cache first
     if os.path.exists(directory):
@@ -45,11 +45,10 @@ async def get_album_colors(song):
     }
     async with aiohttp.ClientSession() as session:
         params = {'url': song}
-        async with session.get("https://open.spotify.com/oembed", params=params, headers=headers) as response:
-            async with session.get((await response.json())["thumbnail_url"], params=params, headers=headers) as resp:
-                f = await aiofiles.open(directory, mode='wb')
-                await f.write(await resp.read())
-                await f.close()
+        async with session.get(song["item"]["album"]["images"][0]["url"], headers=headers) as resp:
+            f = await aiofiles.open(directory, mode='wb')
+            await f.write(await resp.read())
+            await f.close()
     #image_url = requests.get().json()["thumbnail_url"]
     #urllib.request.urlretrieve(image_url, "cover.png")
 
