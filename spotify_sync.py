@@ -57,7 +57,7 @@ async def main(loop):
     #poll and wait until song changes
     song = await get_song()
     
-    audio_controller = AudioController()
+    audio_controller = AudioController(dampen=5)
     #get palette from album
     r,g,b = await get_album_colors(song)
     
@@ -79,7 +79,7 @@ async def main(loop):
     if(DO_KEYBOARD):
         keybd_controller = KeyboardHIDController()
         keyboard_matrix  = KeyboardMatrix(keybd_controller)
-        keyboard_vis = KeyboardAudioVisualizer(keyboard_matrix, audio_controller)
+        keyboard_vis = KeyboardAudioVisualizer(keyboard_matrix, audio_controller )
         await keyboard_vis.change_color(r,g,b)
         loop.create_task(keyboard_vis.visualize())
     
