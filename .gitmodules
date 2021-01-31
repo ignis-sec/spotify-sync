@@ -4,3 +4,6 @@
 [submodule "modules/rgb_keyboard"]
 	path = modules/rgb_keyboard
 	url = https://github.com/FlameOfIgnis/rgb_keyboard
+[submodule "modules/rgb_ecio"]
+	path = modules/rgb_ecio
+	url = https://github.com/FlameOfIgnis/rgb_ecio

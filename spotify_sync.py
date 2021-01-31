@@ -5,14 +5,20 @@ from spotipy.oauth2 import SpotifyOAuth
 from time import sleep
 
 from .colors.colors import get_album_colors,rgb2hsv,hsv2rgb
-from .modules.razer_chroma.aud_razer import AudioVisualizer as RazerAudioVisualizer
+from .modules.razer_chroma.aud_razer import  RazerAudioVisualizer
 from .modules.razer_chroma.razer_chroma import RazerController
 
 from .modules.ambient.ambient import change_ambient
 
 from .modules.rgb_keyboard.keyboard_matrix import KeyboardMatrix
 from .modules.rgb_keyboard.keyboard_controller import KeyboardHIDController
-from .modules.rgb_keyboard.aud_keyboard import AudioVisualizer as KBAudioVisualizer
+from .modules.rgb_keyboard.aud_keyboard import KeyboardAudioVisualizer
+
+from .modules.rgb_ecio.rgb_ecio import ECIOController
+from .modules.rgb_ecio.aud_ecio import ECIOAudioVisualizer
+
+from .modules.rgb_keyboard.audio_loopback.audio_loopback import AudioController
+
 from .config import *
 import asyncio
 
@@ -51,13 +57,14 @@ async def main(loop):
     #poll and wait until song changes
     song = await get_song()
     
+    audio_controller = AudioController()
     #get palette from album
     r,g,b = await get_album_colors(song)
     
     #rgb -> hsv, then hsv->rgb with full saturation
     if(OVERSATURATE_ALBUM_PALLETTE):
         h,s,v = rgb2hsv(r,g,b)
-        r,g,b = hsv2rgb(h,1,v*0.3)
+        r,g,b = hsv2rgb(h,1,v)
     
     logging.pprint(f'Pallette is set to {r},{g},{b}', 3)
 
@@ -65,18 +72,21 @@ async def main(loop):
     keyboard_vis = None
     if(DO_RAZER):
         razer_controller = RazerController()
-        razer_vis = RazerAudioVisualizer(razer_controller)
+        razer_vis = RazerAudioVisualizer(razer_controller, audio_controller)
         await razer_vis.change_color(r,g,b)
         loop.create_task(razer_vis.visualize())
 
     if(DO_KEYBOARD):
         keybd_controller = KeyboardHIDController()
         keyboard_matrix  = KeyboardMatrix(keybd_controller)
-        keyboard_vis = KBAudioVisualizer(keyboard_matrix)
+        keyboard_vis = KeyboardAudioVisualizer(keyboard_matrix, audio_controller)
         await keyboard_vis.change_color(r,g,b)
         loop.create_task(keyboard_vis.visualize())
     
-    
+    ecio_controller = ECIOController()
+    ecio_vis = ECIOAudioVisualizer(ecio_controller, audio_controller)
+    await keyboard_vis.change_color(r,g,b)
+    loop.create_task(ecio_vis.visualize())
     
     while True:
         song = await song_changed(last);
@@ -90,6 +100,7 @@ async def main(loop):
         
         if(DO_KEYBOARD):
             await keyboard_vis.change_color(r,g,b)
+            await ecio_vis.change_color(r,g,b)
         
         # change desktop background to flat
         if(DO_BACKGROUND):
