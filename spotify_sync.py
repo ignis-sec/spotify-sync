@@ -81,12 +81,15 @@ async def main(loop):
     razer_vis = None
     keyboard_vis = None
     ecio_vis = None
+
+    # create and set razer controller device from razer-pychroma
     if(DO_RAZER):
         razer_controller = RazerController()
         razer_vis = RazerAudioVisualizer(razer_controller, audio_controller, fade=RAZER_FADE, delay=RAZER_VISUALS_INTERVAL, dampen=RAZER_DAMPEN, ceiling=RAZER_CEILING, ambient_brightness_coef=RAZER_AMBIENT)
         await razer_vis.change_color(r,g,b)
         loop.create_task(razer_vis.visualize())
 
+    # create and set rgb keyboard controller (not razer) from FlameOfIgnis/rgb_keyboard
     if(DO_KEYBOARD):
         keybd_controller = KeyboardHIDController()
         keyboard_matrix  = KeyboardMatrix(keybd_controller)
@@ -94,6 +97,7 @@ async def main(loop):
         await keyboard_vis.change_color(r,g,b)
         loop.create_task(keyboard_vis.visualize())
     
+    # create and set ECIO strip controller from FlameOfIgnis/ecio_rgb
     if(DO_ECIO):
         ecio_controller = ECIOController()
         ecio_vis = ECIOAudioVisualizer(ecio_controller, audio_controller, fade=ECIO_FADE, delay=ECIO_VISUALS_INTERVAL, dampen=ECIO_DAMPEN, ceiling=ECIO_CEILING, ambient_brightness_coef=ECIO_AMBIENT)

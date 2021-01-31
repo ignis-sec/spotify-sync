@@ -13,7 +13,7 @@ DO_RAZER=True
 DO_BACKGROUND=False
 
 # ECIO device colors, most devices might not have these built in led strips
-DO_ECIO = False
+DO_ECIO = True
 
 # If set, will attempt to oversaturate colors to make prettier
 OVERSATURATE_ALBUM_PALLETTE=True
