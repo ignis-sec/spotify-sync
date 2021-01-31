@@ -12,9 +12,11 @@ DO_RAZER=True
 # Change desktop background color with the song
 DO_BACKGROUND=False
 
+# ECIO device colors, most devices might not have these built in led strips
+DO_ECIO = False
+
 # If set, will attempt to oversaturate colors to make prettier
 OVERSATURATE_ALBUM_PALLETTE=True
-
 
 #how often to poll spotify for song changes (s)
 SPOTIFY_POLL_INTERVAL = 1

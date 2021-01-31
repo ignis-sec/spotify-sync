@@ -33,6 +33,7 @@ auth_manager = SpotifyOAuth(client_id=client_id,
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 
+# wait until song changes
 async def song_changed(last):
     song=last
     while song["item"]["external_urls"]["spotify"]==last["item"]["external_urls"]["spotify"]:
@@ -45,6 +46,7 @@ async def song_changed(last):
             return song
         await asyncio.sleep(SPOTIFY_POLL_INTERVAL)
 
+# get current song that is playing
 async def get_song():
     song = sp.currently_playing()
     if(song):
@@ -58,11 +60,12 @@ async def main(loop):
     
     logging.VERBOSITY = VERBOSITY
     
-    #poll and wait until song changes
-    song = await get_song()
+    # check if a song is playing, wait until it starts
+    song = None
+    while not song:
+        song = await get_song()
+
     last = song
-    if not song:
-        asyncio.sleep(SPOTIFY_POLL_INTERVAL*3)
 
     audio_controller = AudioController(dampen=AUDIO_DAMPEN)
     #get palette from album
@@ -77,6 +80,7 @@ async def main(loop):
 
     razer_vis = None
     keyboard_vis = None
+    ecio_vis = None
     if(DO_RAZER):
         razer_controller = RazerController()
         razer_vis = RazerAudioVisualizer(razer_controller, audio_controller, fade=RAZER_FADE, delay=RAZER_VISUALS_INTERVAL, dampen=RAZER_DAMPEN, ceiling=RAZER_CEILING, ambient_brightness_coef=RAZER_AMBIENT)
@@ -90,10 +94,11 @@ async def main(loop):
         await keyboard_vis.change_color(r,g,b)
         loop.create_task(keyboard_vis.visualize())
     
-    ecio_controller = ECIOController()
-    ecio_vis = ECIOAudioVisualizer(ecio_controller, audio_controller, fade=ECIO_FADE, delay=ECIO_VISUALS_INTERVAL, dampen=ECIO_DAMPEN, ceiling=ECIO_CEILING, ambient_brightness_coef=ECIO_AMBIENT)
-    await keyboard_vis.change_color(r,g,b)
-    loop.create_task(ecio_vis.visualize())
+    if(DO_ECIO):
+        ecio_controller = ECIOController()
+        ecio_vis = ECIOAudioVisualizer(ecio_controller, audio_controller, fade=ECIO_FADE, delay=ECIO_VISUALS_INTERVAL, dampen=ECIO_DAMPEN, ceiling=ECIO_CEILING, ambient_brightness_coef=ECIO_AMBIENT)
+        await keyboard_vis.change_color(r,g,b)
+        loop.create_task(ecio_vis.visualize())
     
     while True:
         song = await song_changed(last);
@@ -101,6 +106,7 @@ async def main(loop):
         logging.pprint(f"Now playing: {song['item']['name']} by {song['item']['album']['artists'][0]['name']}.", 1)
         #image to rgb elements
         r,g,b = await get_album_colors(song)
+
         if(OVERSATURATE_ALBUM_PALLETTE):
             h,s,v = rgb2hsv(r,g,b)
             r,g,b = hsv2rgb(h,1,v)
@@ -114,6 +120,7 @@ async def main(loop):
             ambient = "%02x%02x%02x" % (b,g,r)
             logging.pprint(f"Ambient colors: {ambient}", 2)
             change_ambient(ambient)
+        
         if(DO_RAZER):
-            loop.create_task(razer_vis.change_color(r,g,b))
+            await razer_vis.change_color(r,g,b)
         
