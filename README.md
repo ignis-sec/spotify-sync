@@ -5,7 +5,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+![GitHub](https://img.shields.io/github/license/FlameOfIgnis/spotify-sync?style=for-the-badge)
 [![LinkedIn][linkedin-shield]][linkedin-url]
 ![Twitter Follow](https://img.shields.io/twitter/follow/ahakcil?style=for-the-badge)
 
@@ -25,9 +25,10 @@
     ·
     <a href="https://github.com/FlameOfIgnis/spotify-sync/pulls">Add a Bug</a>
   </p>
+  Huge thanks to [Layle](https://github.com/ioncodes) for the inspiration.
 </p>
 
-Huge thanks to [Layle](https://github.com/ioncodes) for the inspiration.
+
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -120,7 +121,7 @@ Twitter - [@ahakcil](https://twitter.com/ahakcil)
 [issues-shield]: https://img.shields.io/github/issues/FlameOfIgnis/spotify-sync.svg?style=for-the-badge
 [issues-url]: https://github.com/FlameOfIgnis/spotify-sync/issues
 [license-shield]: https://img.shields.io/github/license/FlameOfIgnis/spotify-sync.svg?style=for-the-badge
-[license-url]: https://github.com/FlameOfIgnis/spotify-sync/LICENSE.txt
+[license-url]: https://github.com/FlameOfIgnis/spotify-sync/LICENSE
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/ata-hakcil/
