@@ -19,7 +19,7 @@
   <p align="center">
    Sync RGB devices with Spotify's currently playing songs album cover.
     <br />
-    <a href="https://github.com/FlameOfIgnis/spotify-sync">View Demo</a>
+    <a href="https://youtu.be/zyYRLC5fsEk">View Demo</a>
     ·
     <a href="https://github.com/FlameOfIgnis/spotify-sync/issues">Report Bug</a>
     ·
@@ -27,7 +27,7 @@
   </p>
 </p>
 
-
+Huge thanks to [Layle](https://github.com/ioncodes) for the inspiration.
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -46,12 +46,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
