@@ -18,6 +18,11 @@ DO_ECIO = True
 # If set, will attempt to oversaturate colors to make prettier
 OVERSATURATE_ALBUM_PALLETTE=True
 
+# If set, will attempt to overexpose the colors, making them brighter
+# If one of your devices has bad color calibration, this is just going to make it worse though
+OVEREXPOSE_ALBUM_PALLETTE=False
+
+
 #how often to poll spotify for song changes (s)
 SPOTIFY_POLL_INTERVAL = 1
 
