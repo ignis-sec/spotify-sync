@@ -13,7 +13,7 @@ DO_RAZER=True
 DO_BACKGROUND=False
 
 # ECIO device colors, most devices might not have these built in led strips
-DO_ECIO = True
+DO_ECIO = False
 
 # If set, will attempt to oversaturate colors to make prettier
 OVERSATURATE_ALBUM_PALLETTE=True
@@ -90,7 +90,7 @@ KEYBOARD_DAMPEN = 0
 KEYBOARD_CEILING = 120
 
 # work in progress
-KEYBOARD_AMBIENT = 0.05
+KEYBOARD_AMBIENT = 0.001
 
 # Dampening coefficient for each column of keyboard, so adjustments can be made for higher pitches
 KEYBOARD_DAMPEN_BIAS = 0.98
