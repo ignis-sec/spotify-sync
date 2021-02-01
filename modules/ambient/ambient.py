@@ -8,6 +8,6 @@ class Ambient:
         self.user32 = WinDLL("user32.dll")
 
     def change_color(self, r,g,b):
-        rgb = b + (g<<8) + (r<<16)
+        rgb = r + (g<<8) + (b<<16)
         self.user32.SetSysColors(1, byref(c_int(1)), byref(c_int(rgb)))
 
