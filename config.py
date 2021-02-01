@@ -65,7 +65,7 @@ ECIO_DAMPEN = 0
 ECIO_CEILING = 180
 
 # coefficient for minimum brightess (so device doesn't turn off when there is no audio, just dims down)
-ECIO_AMBIENT = 0.1
+ECIO_AMBIENT = 0.25
 
 
 
@@ -85,7 +85,7 @@ KEYBOARD_DAMPEN = 0
 KEYBOARD_CEILING = 120
 
 # work in progress
-KEYBOARD_AMBIENT = 0.1
+KEYBOARD_AMBIENT = 0.05
 
 # Dampening coefficient for each column of keyboard, so adjustments can be made for higher pitches
 KEYBOARD_DAMPEN_BIAS = 0.98

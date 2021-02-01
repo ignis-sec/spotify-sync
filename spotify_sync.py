@@ -102,12 +102,13 @@ async def main(loop):
     if(DO_ECIO):
         ecio_controller = ECIOController()
         ecio_vis = ECIOAudioVisualizer(ecio_controller, audio_controller, fade=ECIO_FADE, delay=ECIO_VISUALS_INTERVAL, dampen=ECIO_DAMPEN, ceiling=ECIO_CEILING, ambient_brightness_coef=ECIO_AMBIENT)
-        await keyboard_vis.change_color(r,g,b)
+        await ecio_vis.change_color(r,g,b)
         loop.create_task(ecio_vis.visualize())
     
     if(DO_BACKGROUND):
         ambient_colors = Ambient()
         ambient_colors.change_color(r,g,b)
+
     while True:
         song = await song_changed(last);
         last=song
@@ -120,12 +121,14 @@ async def main(loop):
             r,g,b = hsv2rgb(h,1,v)
         
         if(DO_KEYBOARD):
-            await keyboard_vis.change_color(r,g,b)
-            await ecio_vis.change_color(r,g,b)
+            loop.create_task(keyboard_vis.change_color(r,g,b))
+
+        if(DO_ECIO):
+            loop.create_task(ecio_vis.change_color(r,g,b))
         
         if(DO_BACKGROUND):
             ambient_colors.change_color(r,g,b)
         
         if(DO_RAZER):
-            await razer_vis.change_color(r,g,b)
+            loop.create_task(razer_vis.change_color(r,g,b))
         
