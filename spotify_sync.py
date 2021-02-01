@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyOAuth
 
 from time import sleep
 
-from .colors.colors import get_album_colors,rgb2hsv,hsv2rgb
+from .colors.colors import adjust_color, get_album_colors,rgb2hsv,hsv2rgb
 from .modules.razer_chroma.aud_razer import  RazerAudioVisualizer
 from .modules.razer_chroma.razer_chroma import RazerController
 
@@ -70,11 +70,7 @@ async def main(loop):
     audio_controller = AudioController(dampen=AUDIO_DAMPEN)
     #get palette from album
     r,g,b = await get_album_colors(song)
-    
-    #rgb -> hsv, then hsv->rgb with full saturation
-    if(OVERSATURATE_ALBUM_PALLETTE):
-        h,s,v = rgb2hsv(r,g,b)
-        r,g,b = hsv2rgb(h,1,v)
+    r,g,b = adjust_color(r,g,b,OVERSATURATE_ALBUM_PALLETTE, OVEREXPOSE_ALBUM_PALLETTE)
     
     logging.pprint(f'Pallette is set to {r},{g},{b}', 3)
 
@@ -115,10 +111,7 @@ async def main(loop):
         logging.pprint(f"Now playing: {song['item']['name']} by {song['item']['album']['artists'][0]['name']}.", 1)
         #image to rgb elements
         r,g,b = await get_album_colors(song)
-
-        if(OVERSATURATE_ALBUM_PALLETTE):
-            h,s,v = rgb2hsv(r,g,b)
-            r,g,b = hsv2rgb(h,1,v)
+        r,g,b = adjust_color(r,g,b,OVERSATURATE_ALBUM_PALLETTE, OVEREXPOSE_ALBUM_PALLETTE)
         
         if(DO_KEYBOARD):
             loop.create_task(keyboard_vis.change_color(r,g,b))

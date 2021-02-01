@@ -56,4 +56,13 @@ async def get_album_colors(song):
     return get_colors(directory, numcolors=1)[0]
 
 
+def adjust_color(r,g,b, oversaturate, overexpose):
+    #rgb -> hsv, then hsv->rgb with full saturation
+    if(not overexpose and not oversaturate):
+        return (r,g,b)
     
+    h,s,v = rgb2hsv(r,g,b)
+    if(oversaturate): s = 1
+    if(overexpose): v = 1
+        
+    return hsv2rgb(h,s,v)
