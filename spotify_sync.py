@@ -17,7 +17,7 @@ from .modules.rgb_keyboard.aud_keyboard import KeyboardAudioVisualizer
 from .modules.rgb_ecio.rgb_ecio import ECIOController
 from .modules.rgb_ecio.aud_ecio import ECIOAudioVisualizer
 
-from .modules.rgb_keyboard.audio_loopback.audio_loopback import AudioController
+from .shared_audio import SharedAudioController
 
 from .config import *
 import asyncio
@@ -67,7 +67,7 @@ async def main(loop):
 
     last = song
 
-    audio_controller = AudioController(dampen=AUDIO_DAMPEN)
+    audio_controller = SharedAudioController(dampen=AUDIO_DAMPEN)
     #get palette from album
     r,g,b = await get_album_colors(song)
     r,g,b = adjust_color(r,g,b,OVERSATURATE_ALBUM_PALLETTE, OVEREXPOSE_ALBUM_PALLETTE)
@@ -105,6 +105,7 @@ async def main(loop):
         ambient_colors = Ambient()
         ambient_colors.change_color(r,g,b)
 
+    loop.create_task(audio_controller.refresh_loop())
     while True:
         song = await song_changed(last);
         last=song
