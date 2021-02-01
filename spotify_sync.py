@@ -8,7 +8,7 @@ from .colors.colors import get_album_colors,rgb2hsv,hsv2rgb
 from .modules.razer_chroma.aud_razer import  RazerAudioVisualizer
 from .modules.razer_chroma.razer_chroma import RazerController
 
-from .modules.ambient.ambient import change_ambient
+from .modules.ambient.ambient import Ambient
 
 from .modules.rgb_keyboard.keyboard_matrix import KeyboardMatrix
 from .modules.rgb_keyboard.keyboard_controller import KeyboardHIDController
@@ -81,6 +81,7 @@ async def main(loop):
     razer_vis = None
     keyboard_vis = None
     ecio_vis = None
+    ambient_colors = None
 
     # create and set razer controller device from razer-pychroma
     if(DO_RAZER):
@@ -104,6 +105,9 @@ async def main(loop):
         await keyboard_vis.change_color(r,g,b)
         loop.create_task(ecio_vis.visualize())
     
+    if(DO_BACKGROUND):
+        ambient_colors = Ambient()
+        ambient_colors.change_color(r,g,b)
     while True:
         song = await song_changed(last);
         last=song
@@ -119,11 +123,8 @@ async def main(loop):
             await keyboard_vis.change_color(r,g,b)
             await ecio_vis.change_color(r,g,b)
         
-        # change desktop background to flat
         if(DO_BACKGROUND):
-            ambient = "%02x%02x%02x" % (b,g,r)
-            logging.pprint(f"Ambient colors: {ambient}", 2)
-            change_ambient(ambient)
+            ambient_colors.change_color(r,g,b)
         
         if(DO_RAZER):
             await razer_vis.change_color(r,g,b)
